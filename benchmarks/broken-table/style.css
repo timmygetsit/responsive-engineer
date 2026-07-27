@@ -1,0 +1,35 @@
+body {
+    font-family: sans-serif;
+    margin: 0;
+    padding: 20px;
+    background-color: #fafafa;
+}
+
+.container {
+    background: white;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.log-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.log-table th, .log-table td {
+    padding: 10px;
+    border: 1px solid #ccc;
+    /* Broken: forces the table to expand infinitely if content is long */
+    white-space: nowrap; 
+}
+
+.log-table th {
+    background-color: #eee;
+}

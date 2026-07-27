@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deceptive Overflow</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-layout">
+        <aside class="sidebar">Menu</aside>
+        <main class="main-content">
+            <h1>User Profile</h1>
+            <p>Website: <a href="#" class="long-link">https://www.example.com/some/very/long/path/that/is/going/to/break/the/flex/layout/because/min/width/is/auto</a></p>
+        </main>
+    </div>
+</body>
+</html>

@@ -1,0 +1,18 @@
+* { box-sizing: border-box; }
+
+body {
+    margin: 0;
+    font-family: sans-serif;
+    padding: 20px;
+}
+
+.content-wrapper {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.illustration {
+    /* Fixed: allows SVG to scale down */
+    max-width: 100%;
+    height: auto;
+}

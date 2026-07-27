@@ -1,0 +1,23 @@
+.shared-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #2c3e50;
+    color: white;
+    padding: 20px;
+    /* Fixed: allows wrap so page1 doesn't overflow, doesn't hurt page2 */
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.nav-items {
+    display: flex;
+    gap: 10px; /* Reduced gap since we added padding */
+}
+
+.nav-items a {
+    /* Fixed: Accessibility touch target */
+    padding: 12px;
+    display: block;
+    text-decoration: none;
+}

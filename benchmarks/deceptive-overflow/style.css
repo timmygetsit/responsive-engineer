@@ -1,0 +1,32 @@
+* { box-sizing: border-box; }
+
+body {
+    margin: 0;
+    font-family: sans-serif;
+}
+
+.app-layout {
+    display: flex;
+    width: 100%;
+}
+
+.sidebar {
+    width: 80px;
+    background: #333;
+    color: white;
+    height: 100vh;
+}
+
+.main-content {
+    flex: 1;
+    padding: 20px;
+    background: #f4f4f4;
+    /* Fixed: allows flex child to shrink below its content min-width */
+    min-width: 0;
+}
+
+.long-link {
+    overflow-wrap: break-word;
+    word-break: break-all;
+    /* This wrap won't work because the parent container refuses to shrink below the content width */
+}
