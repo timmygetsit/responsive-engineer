@@ -4,41 +4,32 @@ To evaluate whether Responsive Engineer can correctly reason about responsive be
 
 ## Scoring Categories (Total 100 Points)
 
-### 1. Root-Cause Diagnosis (10 pts)
-- **10 pts:** Correctly identified the exact structural CSS property, deceptive intrinsic size, or DOM hierarchy issue.
+### 1. Root-Cause Diagnosis (20 pts)
+Did the agent correctly identify the actual cause of the responsive issue (if any) rather than fixing symptoms?
 
-### 2. Structural Correctness (10 pts)
-- **10 pts:** Applied a structural layout fix (flex, grid, fluid sizing) from the top of the Repair Hierarchy.
+### 2. Repair Correctness (20 pts)
+Did the repair directly address the root cause, or correctly preserve intentional behavior?
 
-### 3. Structural Responsiveness (10 pts)
-- **10 pts:** Passes at all tested mobile viewports (e.g., 320px). No unintended page-level overflow.
+### 3. Responsive Quality (15 pts)
+Does the application behave appropriately across desktop, tablet, and mobile viewports?
 
-### 4. Desktop Regression Avoidance (5 pts)
-- **5 pts:** Repairing the mobile layout did not break the desktop layout (tested at 1024px+).
+### 4. Interaction Model (10 pts)
+Did the agent correctly determine whether interaction transformation was necessary (vs fluid adaptation)?
 
-### 5. Cross-Component Regression (Blast Radius) (10 pts)
-- **10 pts:** Repairs to shared components did not introduce regressions in other consumers (pages).
+### 5. Accessibility (10 pts)
+Does the repaired experience remain accessible (semantic controls, focus, touch targets)?
 
-### 6. Intentional & Deceptive Behavior Classification (5 pts)
-- **5 pts:** Correctly ignored intentional component-level overflow and correctly classified deceptive behaviors (e.g., SVG intrinsic sizes, iframe containment).
+### 6. Regression Safety (10 pts)
+Did the repair avoid breaking desktop, tablet, or other components (blast radius)?
 
-### 7. Visual Regression Handling (5 pts)
-- **5 pts:** Visual differences between before/after states were correctly triaged as expected responsive changes rather than unexpected layout shifts or z-index collisions.
+### 7. Minimality (5 pts)
+Did the agent avoid unnecessary complexity and unused breakpoints?
 
-### 8. Minimality of Changes (5 pts)
-- **5 pts:** Fixed the issue with the absolute minimum CSS/HTML changes required.
+### 8. Verification Completeness (5 pts)
+Was the repair properly verified across the required viewport matrix and multiple dimensions?
 
-### 9. Verification Completeness (5 pts)
-- **5 pts:** The agent successfully verified its own fix using multi-layer testing (geometry + visual + interaction).
-
-### 10. Responsive Interaction Model (15 pts)
-- **15 pts:** Correct decision between fluid adaptation and interaction transformation. Appropriate mobile interaction model. Preservation of functionality. No unnecessary transformation.
-
-### 11. Mobile UX (10 pts)
-- **10 pts:** Evaluated readability, density, touch targets, visual hierarchy, and overall usability correctly.
-
-### 12. Accessibility of Transformation (10 pts)
-- **10 pts:** Semantic controls, accessible state (aria-expanded), keyboard operation, and focus behavior are maintained.
+### 9. Observability & Honesty (5 pts)
+Did the agent correctly distinguish between Observed, Inferred, Unverified, and Blocked behaviors?
 
 Note: A solution must not receive a perfect score merely because scrollWidth <= viewportWidth.
 

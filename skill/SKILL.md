@@ -21,6 +21,26 @@ Activate this skill when asked to:
 - "Ensure this UI works across all viewports."
 - ANY task explicitly related to responsive behavior, CSS media queries, or layout failure.
 
+## Real-World Evaluation Modes
+**MODE A — KNOWN BUG REPAIR**
+You receive a specific user-facing problem (e.g., "The dashboard is unusable on mobile"). You must independently discover, reproduce, diagnose, classify, repair, and verify. Do not guess the root cause without evidence.
+
+**MODE B — OPEN-ENDED RESPONSIVE AUDIT**
+You receive a general audit request (e.g., "Audit this application for responsive behavior"). You must evaluate viewports, find what is broken, what is intentional, and what requires transformation. You may legitimately conclude no repair is needed.
+
+## Real-World Failure Classification
+Every discovered condition must be classified as exactly one primary category:
+1. `STRUCTURAL_BUG`
+2. `INTERACTION_MODEL_BUG`
+3. `VISUAL_UX_ISSUE`
+4. `ACCESSIBILITY_ISSUE`
+5. `INTENTIONAL_BEHAVIOR`
+6. `NO_ISSUE`
+7. `NEEDS_HUMAN_REVIEW`
+8. `BLOCKED_INCOMPLETE_OBSERVABILITY`
+
+Do not force every audit to produce a repair. A successful evaluation may result in zero code changes.
+
 ## Interaction Transformation (Category A vs B)
 Responsive engineering has two distinct categories of adaptation. You must evaluate which category applies:
 
@@ -77,7 +97,11 @@ Before changing code, answer these questions:
 7. **Shared Components**: If the fix requires editing a shared CSS file or component, will it cause regressions on other pages? Measure the blast radius.
 
 ### Step 3: Testing
-Determine the test matrix. At a minimum, test at [320, 375, 390, 393, 430, 768, 1024, 1440]. Look for transition points where the layout fails or the interaction density becomes unusable.
+Determine the test matrix. Test at minimum:
+- **Mobile**: 320px, 375px, 390px, 393px, 430px
+- **Tablet**: 768px, 820px, 1024px
+- **Desktop**: 1280px, 1440px
+Where relevant, include short-height viewports to expose vertical overflow and modal problems. Do not assume standard breakpoints are sufficient. Look for transition points where the layout fails or interaction density becomes unusable.
 Use available browser tools (e.g., Playwright) to measure page width vs viewport width (horizontal overflow detection) and verify interaction usability.
 
 ### Step 4: Diagnosis
