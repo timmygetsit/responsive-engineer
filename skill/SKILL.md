@@ -38,7 +38,14 @@ When tasked with responsive work, you MUST execute the following loop:
 
 ### Step 1: Establish Scope and Contract
 Determine if the user wants to BUILD, AUDIT, or REPAIR.
-Write down a temporary "Responsive Contract" for the component(s) in question. This defines how it *should* behave (e.g., "Table should scroll horizontally", "Sidebar should collapse below 768px").
+Write down a temporary "Responsive Contract" for the component(s) in question. This defines how it *should* behave.
+
+**Evaluation Coverage Tracking:**
+As part of the Responsive Contract, you must explicitly track coverage:
+- **Observed**: Behaviors verified through actual rendering.
+- **Inferred**: Behaviors inferred from source code rather than observed in a browser.
+- **Unverified**: Behaviors that could not be evaluated.
+- **Blocked**: Behaviors that could not be rendered due to external dependencies.
 
 ### Step 2: Understand
 Before changing code, answer these questions:
@@ -67,28 +74,43 @@ Apply the Repair Hierarchy:
 5. Use intrinsic/fluid sizing.
 6. Only use breakpoint state changes as a last resort.
 
-### Step 5: Verification and Reporting (Multi-Layer)
+### Step 6: Handling Incomplete Observability (API-Blocked Reconnaissance)
+When an application cannot fully render because external APIs, databases, or integrations are unavailable, DO NOT immediately classify it as a responsive failure. You must attempt recovery:
+- **Level 1 (Local Data)**: Inspect for fixtures, mock data, or JSON seeds.
+- **Level 2 (UI Components)**: Render components independently via Storybook, demo pages, or direct imports.
+- **Level 3 (Test Infrastructure)**: Look for Playwright/Cypress fixtures or MSW mocks.
+- **Level 4 (Temporary Harness)**: Create an isolated evaluation harness if components exist but lack a usable route.
+- **Level 5 (Stop)**: If the UI cannot be meaningfully reconstructed, stop and document the limitation.
+
+### Step 7: Verification and Reporting (Multi-Layer)
 Prove the fix works objectively. DOM geometry is necessary but not sufficient.
 1. Use browser automation (Playwright) or `browser_subagent` to render the page.
 2. Check the **failure threshold**: Test widths immediately before and after the expected breakpoint transition.
-3. Check **regression**: Ensure the original failing viewport is fixed, BUT ALSO verify that previous passing widths (e.g., desktop 1024px, tablet 768px) remain intact. A repair that breaks desktop is a failed repair.
+3. Check **regression**: Ensure the original failing viewport is fixed, BUT ALSO verify that previous passing widths remain intact.
 4. Check **cross-component blast radius**: Test other pages that consume the shared component.
 5. Check **accessibility**: Ensure elements are keyboard focusable, text scales cleanly at 200% zoom, and interactable touch targets are ≥44px.
 6. Check **page geometry**: Ensure `document.body.scrollWidth <= window.innerWidth`.
-7. **Visual Regression Triage**: Compare screenshots before and after. A visual difference is NOT automatically a failure. Distinguish between *expected responsive changes* (e.g., intended wrapping) and *unexpected layout shifts* (e.g., z-index collisions, clipping). Visual regression is evidence, not the sole source of truth.
-8. Ensure no intentional component-level overflow (like a table) or uncontrollable iframe behavior was forcibly suppressed with anti-patterns.
+7. **Visual Regression Triage**: Compare screenshots before and after. Distinguish between expected responsive changes and unexpected layout shifts.
+8. Ensure no intentional component-level overflow or uncontrollable iframe behavior was forcibly suppressed with anti-patterns.
 
 You MUST NOT complete the task without generating a report.
+**No False Confidence Rule:** Never interpret the absence of detected responsive failures as evidence that the entire application is responsive when significant portions of the application were not rendered or evaluated. Always distinguish "No bug found" from "No bug could be evaluated".
+
 Format the final report as follows:
 ```
 RESPONSIVE ENGINEER — VERIFICATION REPORT
 Project: [Name]
-Scope: [Scope]
+Coverage Status: [FULL | PARTIAL | BLOCKED | UNKNOWN]
+Responsive Coverage Summary:
+  Full Coverage: [List elements]
+  Partial Coverage: [List elements]
+  Blocked: [List elements]
+  Reason: [e.g., Shopify integration unavailable]
+  Evaluation Confidence: [FULL | PARTIAL | UNKNOWN]
 Results:
-[Viewport] [PASS/FAIL] (include regression and threshold tests)
+[Viewport] [PASS/FAIL]
 Fixed: [List of structural fixes]
 Verified: [Checklist of verification criteria]
-Intentional Overflow: [List of intentional overflows correctly preserved]
 Final Status: PASS
 ```
 
