@@ -21,24 +21,43 @@ Activate this skill when asked to:
 - "Ensure this UI works across all viewports."
 - ANY task explicitly related to responsive behavior, CSS media queries, or layout failure.
 
+## Interaction Transformation (Category A vs B)
+Responsive engineering has two distinct categories of adaptation. You must evaluate which category applies:
+
+**Category A — Fluid Adaptation**
+The existing interaction model remains appropriate for the viewport.
+Examples: Fluid widths, flexbox wrapping, grid reflow, content resizing, intrinsic sizing, `max-width: 100%`.
+
+**Category B — Interaction Transformation**
+The existing desktop interaction model is no longer appropriate and must change to remain usable.
+Examples: Desktop navigation → hamburger menu, dense action group → "More" menu, wide table → localized horizontal scroll, horizontal toolbar → vertical controls.
+
 ## Core Workflow (The Repair Loop)
 When tasked with responsive work, you MUST execute the following loop:
 
 1. **DISCOVER**: Inspect the HTML/CSS/components and observe the current UI.
 2. **UNDERSTAND**: Read `skill/references/responsive-contract.md` to establish the intended behavior.
-3. **TEST**: Use browser automation (or visual tools) to check the UI against the standard Viewport Matrix (320px to 1440px).
+3. **TEST**: Use browser automation (or visual tools) to check the UI against the standard Viewport Matrix (including CSS viewports: 320px, 375px, 390px, 393px, 430px, 768px, 1024px, 1440px).
 4. **DIAGNOSE**: Identify layout failures. Distinguish root causes (e.g., fixed-widths) from symptoms (e.g., clipping). Consult `skill/references/failure-taxonomy.md`.
-5. **PLAN**: Choose the smallest, most structural fix based on the Repair Hierarchy (see `skill/references/repair-strategy.md`).
-6. **IMPLEMENT**: Modify the codebase. Avoid anti-patterns (see `skill/references/anti-patterns.md`).
-7. **VERIFY**: Re-render the interface and re-test the viewports.
-8. **ITERATE**: If tests fail, repeat from step 4. DO NOT declare success if verification fails.
-9. **REPORT**: Generate a Verification Report.
+5. **CLASSIFY ADAPTATION TYPE**: Decide if the component needs Fluid Adaptation, Interaction Transformation, Hybrid, or if it is Unknown.
+6. **PLAN**: Choose the smallest, most structural fix based on the Repair Hierarchy (see `skill/references/repair-strategy.md` and `responsive-navigation.md`).
+7. **IMPLEMENT**: Modify the codebase. Avoid anti-patterns (see `skill/references/anti-patterns.md`).
+8. **VERIFY STRUCTURE**: Ensure no unintended page overflow and layout reflows correctly.
+9. **VERIFY INTERACTION**: Ensure appropriate density, touch targets, and controls.
+10. **VERIFY ACCESSIBILITY**: Ensure semantic controls, aria-expanded, keyboard operation, and focus behavior are intact.
+11. **VERIFY REGRESSIONS**: Check other viewports and shared components.
+12. **REPORT**: Generate a Verification Report.
+
+**CRITICAL RULE**: Responsive engineering is not complete when the page merely stops overflowing. A layout may be geometrically valid but interactionally inappropriate. The agent must evaluate whether the interface remains usable and whether the interaction model should transform at smaller viewports.
+
+**CRITICAL RULE**: Do not force a hamburger menu solely because the viewport is small. Choose the simplest interaction model that preserves usability, accessibility, and the intended product behavior.
 
 ## Operating Instructions
 
 ### Step 1: Establish Scope and Contract
 Determine if the user wants to BUILD, AUDIT, or REPAIR.
 Write down a temporary "Responsive Contract" for the component(s) in question. This defines how it *should* behave.
+The contract MUST include Geometry, Layout, Overflow, Breakpoints, Accessibility, and the **Interaction Model** (Desktop, Tablet, Mobile models; Expected transformation point; Trigger behavior; Expanded/collapsed behavior; Preservation of functionality).
 
 **Evaluation Coverage Tracking:**
 As part of the Responsive Contract, you must explicitly track coverage:
@@ -58,8 +77,8 @@ Before changing code, answer these questions:
 7. **Shared Components**: If the fix requires editing a shared CSS file or component, will it cause regressions on other pages? Measure the blast radius.
 
 ### Step 3: Testing
-Determine the test matrix. At a minimum, test at [320, 375, 768, 1024, 1440]. Look for transition points where the layout fails.
-Use available browser tools (e.g., Playwright) to measure page width vs viewport width (horizontal overflow detection).
+Determine the test matrix. At a minimum, test at [320, 375, 390, 393, 430, 768, 1024, 1440]. Look for transition points where the layout fails or the interaction density becomes unusable.
+Use available browser tools (e.g., Playwright) to measure page width vs viewport width (horizontal overflow detection) and verify interaction usability.
 
 ### Step 4: Diagnosis
 Do not immediately add a media query. 
@@ -83,15 +102,19 @@ When an application cannot fully render because external APIs, databases, or int
 - **Level 5 (Stop)**: If the UI cannot be meaningfully reconstructed, stop and document the limitation.
 
 ### Step 7: Verification and Reporting (Multi-Layer)
-Prove the fix works objectively. DOM geometry is necessary but not sufficient.
+Prove the fix works objectively using Visual Responsiveness Verification:
+- **Structural Responsiveness**: No unintended page overflow; elements fit containers; layout reflows correctly.
+- **Interaction Responsiveness**: Appropriate navigation model, controls, density, and touch targets.
+- **Visual Responsiveness**: Header balanced, logo visible, navigation not cramped, controls don't collide, mobile menu hierarchy clear, desktop appearance preserved.
+- **Accessibility**: Ensure keyboard focusable, text scales cleanly, touch targets ≥44px. For transformed components (e.g., hamburger menu): semantic `<button>`, accessible name, `aria-expanded`, keyboard/escape operation, and focus retention.
+
+Other checks:
 1. Use browser automation (Playwright) or `browser_subagent` to render the page.
 2. Check the **failure threshold**: Test widths immediately before and after the expected breakpoint transition.
 3. Check **regression**: Ensure the original failing viewport is fixed, BUT ALSO verify that previous passing widths remain intact.
 4. Check **cross-component blast radius**: Test other pages that consume the shared component.
-5. Check **accessibility**: Ensure elements are keyboard focusable, text scales cleanly at 200% zoom, and interactable touch targets are ≥44px.
-6. Check **page geometry**: Ensure `document.body.scrollWidth <= window.innerWidth`.
-7. **Visual Regression Triage**: Compare screenshots before and after. Distinguish between expected responsive changes and unexpected layout shifts.
-8. Ensure no intentional component-level overflow or uncontrollable iframe behavior was forcibly suppressed with anti-patterns.
+5. Check **page geometry**: Ensure `document.body.scrollWidth <= window.innerWidth`.
+6. Ensure no intentional component-level overflow or uncontrollable iframe behavior was forcibly suppressed with anti-patterns.
 
 You MUST NOT complete the task without generating a report.
 **No False Confidence Rule:** Never interpret the absence of detected responsive failures as evidence that the entire application is responsive when significant portions of the application were not rendered or evaluated. Always distinguish "No bug found" from "No bug could be evaluated".
@@ -117,6 +140,7 @@ Final Status: PASS
 ## References
 For detailed methodologies, you MUST refer to the documentation in `skill/references/`:
 - `responsive-contract.md` - Defining responsive intent.
+- `responsive-navigation.md` - Framework for fluid vs interaction transformation (mobile menus).
 - `failure-taxonomy.md` - Classifying layout errors.
 - `repair-strategy.md` - The hierarchy of fixes.
 - `anti-patterns.md` - What NOT to do.

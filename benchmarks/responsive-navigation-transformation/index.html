@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Responsive Navigation Transformation</title>
+    <style>
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #f4f4f5;
+        }
+
+        .header {
+            background: white;
+            border-bottom: 1px solid #e4e4e7;
+            padding: 1rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            font-weight: 800;
+            font-size: 1.25rem;
+            color: #18181b;
+            text-decoration: none;
+            flex-shrink: 0;
+            padding: 0.5rem 0;
+            min-height: 44px;
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+            margin: 0 2rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #52525b;
+            font-size: 0.95rem;
+            white-space: nowrap;
+        }
+
+        .nav-links a:hover {
+            color: #000;
+        }
+
+        .actions {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            flex-shrink: 0;
+        }
+
+        .btn-primary {
+            background: #2563eb;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 500;
+            white-space: nowrap;
+        }
+
+        .btn-secondary {
+            color: #2563eb;
+            text-decoration: none;
+            font-weight: 500;
+            white-space: nowrap;
+        }
+
+        main {
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Mobile Transformation */
+        .hamburger {
+            display: none;
+            background: transparent;
+            border: none;
+            padding: 0.75rem;
+            min-width: 44px;
+            min-height: 44px;
+            cursor: pointer;
+            color: #18181b;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .hamburger:focus-visible {
+            outline: 2px solid #2563eb;
+            outline-offset: 2px;
+        }
+
+        .hamburger svg {
+            width: 28px;
+            height: 28px;
+        }
+
+        @media (max-width: 850px) {
+            .hamburger {
+                display: flex;
+            }
+
+            .header {
+                flex-wrap: wrap;
+                padding: 1rem;
+            }
+
+            .nav-links, .actions {
+                display: none;
+                width: 100%;
+                flex-direction: column;
+                margin: 0;
+                padding: 0;
+                gap: 0;
+            }
+
+            .nav-links {
+                margin-top: 1rem;
+            }
+
+            .nav-links a {
+                display: block;
+                padding: 1rem 0;
+                border-bottom: 1px solid #e4e4e7;
+                width: 100%;
+                text-align: left;
+            }
+
+            .actions {
+                padding: 1.5rem 0;
+                gap: 1rem;
+            }
+
+            .btn-primary, .btn-secondary {
+                display: block;
+                width: 100%;
+                text-align: center;
+                box-sizing: border-box;
+                padding: 1rem;
+            }
+
+            .header.is-open .nav-links,
+            .header.is-open .actions {
+                display: flex;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <a href="#" class="logo">AcmeCorp</a>
+        
+        <button class="hamburger" aria-expanded="false" aria-controls="mobile-nav" aria-label="Toggle navigation menu">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="3" y1="12" x2="21" y2="12"></line>
+                <line x1="3" y1="6" x2="21" y2="6"></line>
+                <line x1="3" y1="18" x2="21" y2="18"></line>
+            </svg>
+        </button>
+
+        <nav id="mobile-nav" class="nav-links">
+            <a href="#">Home</a>
+            <a href="#">Products</a>
+            <a href="#">Pricing</a>
+            <a href="#">Documentation</a>
+            <a href="#">About Us</a>
+        </nav>
+
+        <div class="actions">
+            <a href="#" class="btn-secondary">Sign In</a>
+            <a href="#" class="btn-primary">Get Started</a>
+        </div>
+    </header>
+
+    <main>
+        <h1>Welcome to AcmeCorp</h1>
+        <p>This is a test page for evaluating responsive navigation transformations.</p>
+    </main>
+
+    <script>
+        const hamburger = document.querySelector('.hamburger');
+        const header = document.querySelector('.header');
+
+        hamburger.addEventListener('click', () => {
+            const isOpen = header.classList.toggle('is-open');
+            hamburger.setAttribute('aria-expanded', isOpen);
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && header.classList.contains('is-open')) {
+                header.classList.remove('is-open');
+                hamburger.setAttribute('aria-expanded', 'false');
+                hamburger.focus();
+            }
+        });
+    </script>
+</body>
+</html>

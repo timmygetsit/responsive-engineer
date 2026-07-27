@@ -1,5 +1,14 @@
 # Changelog - Responsive Engineer
 
+## [v0.4] - Responsive Interaction Transformation
+### Added
+- **Interaction Transformation vs. Fluid Adaptation:** Formally distinguishes between layouts that should scale down (Fluid) and layouts that must change their interaction model (Transformation).
+- **Visual & Interaction Responsiveness:** Extended the verification methodology to evaluate not just structural integrity (no overflow), but also interaction usability (touch targets, density, readability) and visual balance.
+- **Mobile Navigation Principles:** Added `responsive-navigation.md` reference guide containing decision trees for when to use hamburger menus, drawers, or keep full navigation.
+- **Accessibility Requirements:** Added strict accessibility checks for transformed interaction models (e.g., semantic `<button>`, `aria-expanded`, keyboard focus).
+- **Conditional Transformation Testing:** Responsive Interaction Transformation is conditional, not mandatory. Added negative testing (`responsive-navigation-no-transformation`) to explicitly verify that the methodology preserves simple navigations as fluid layouts without unnecessarily forcing a hamburger menu on small viewports.
+- **New Benchmark Suite Expansion:** Introduced `responsive-navigation-transformation` to test the agent's ability to transition dense desktop navigation to a compact mobile interaction model, and a sister false-positive test for simple navigation.
+- **Scoring Updates:** Added 35 points for Responsive Interaction Model, Mobile UX, and Accessibility of Transformation.
 ## [v0.3-planning] - Current Phase
 ### Objectives
 - **Real-World Evaluation:** Test the responsive repair methodology on 10-20 unfamiliar, complex open-source frontend codebases representing a mix of frameworks (React, Vue, Vanilla) and CSS strategies (Tailwind, Modules).

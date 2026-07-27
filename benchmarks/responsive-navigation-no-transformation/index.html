@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Responsive Navigation No Transformation</title>
+    <style>
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #f4f4f5;
+        }
+
+        .header {
+            background: white;
+            border-bottom: 1px solid #e4e4e7;
+            padding: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            font-weight: 800;
+            font-size: 1.25rem;
+            color: #18181b;
+            text-decoration: none;
+            flex-shrink: 0;
+            min-height: 44px;
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #52525b;
+            font-size: 0.95rem;
+            white-space: nowrap;
+            padding: 0.75rem;
+            min-height: 44px;
+            display: flex;
+            align-items: center;
+            box-sizing: border-box;
+        }
+
+        .nav-links a:hover {
+            color: #000;
+        }
+
+        main {
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <a href="#" class="logo">Acme</a>
+        
+        <nav class="nav-links">
+            <a href="#">Home</a>
+            <a href="#">About</a>
+            <a href="#">Contact</a>
+        </nav>
+    </header>
+
+    <main>
+        <h1>Welcome to Acme</h1>
+        <p>This is a test page for evaluating responsive navigation negative tests (no transformation required).</p>
+    </main>
+</body>
+</html>

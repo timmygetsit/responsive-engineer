@@ -46,7 +46,8 @@ async function runBenchmark(browser, name, url, options = {}) {
         name,
         viewports: {},
         intentionalOverflowMaintained: null,
-        accessibility: null
+        accessibility: null,
+        interactionTransformation: null
     };
 
     let mobilePass = true;
@@ -121,6 +122,77 @@ async function runBenchmark(browser, name, url, options = {}) {
     results.accessibility = a11yPass;
     console.log(`  Accessibility (Touch Targets): ${a11yPass ? 'PASS' : 'FAIL'}`);
 
+    if (options.checkInteractionTransformation) {
+        // Evaluate Desktop Behavior
+        await page.setViewportSize({ width: 1024, height: 800 });
+        const desktopPass = await page.evaluate(() => {
+            const nav = document.querySelector('.nav-links');
+            if (!nav) return false;
+            const style = window.getComputedStyle(nav);
+            // On desktop, the navigation should be fully visible, not hidden behind a hamburger
+            return style.display !== 'none' && style.visibility !== 'hidden';
+        });
+
+        // Evaluate Mobile Behavior & Accessibility
+        await page.setViewportSize({ width: 390, height: 844 });
+        
+        const mobileResults = await page.evaluate(() => {
+            const nav = document.querySelector('.nav-links');
+            const hamburger = document.querySelector('button[aria-expanded], button[aria-controls], .hamburger, button.menu-toggle');
+            
+            if (!hamburger) return { error: "No semantic hamburger button found" };
+            
+            const btnTag = hamburger.tagName.toLowerCase() === 'button';
+            const hasAria = hamburger.hasAttribute('aria-expanded');
+            const hasAccessibleName = hamburger.hasAttribute('aria-label') || hamburger.innerText.trim().length > 0;
+            
+            const navStyle = window.getComputedStyle(nav);
+            // On mobile, the navigation should be hidden initially (or placed in a drawer)
+            const isInitiallyHidden = navStyle.display === 'none' || navStyle.visibility === 'hidden' || navStyle.opacity === '0' || nav.getBoundingClientRect().width === 0;
+            
+            return {
+                hasHamburger: !!hamburger,
+                isButton: btnTag,
+                hasAria: hasAria,
+                hasAccessibleName: hasAccessibleName,
+                isInitiallyHidden: isInitiallyHidden
+            };
+        });
+
+        const interactionPass = desktopPass && mobileResults.hasHamburger && mobileResults.isButton && mobileResults.hasAria && mobileResults.isInitiallyHidden;
+        results.interactionTransformation = interactionPass;
+        console.log(`  Interaction Transformation: ${interactionPass ? 'PASS' : 'FAIL'} (Desktop visible: ${desktopPass}, Mobile btn: ${mobileResults.hasHamburger}, Semantic: ${mobileResults.isButton}, Aria: ${mobileResults.hasAria})`);
+    }
+
+    if (options.checkNoTransformation) {
+        // Evaluate Mobile Behavior
+        await page.setViewportSize({ width: 320, height: 480 });
+        
+        const mobileResults = await page.evaluate(() => {
+            const nav = document.querySelector('.nav-links');
+            const hamburger = document.querySelector('button[aria-expanded], button[aria-controls], .hamburger, button.menu-toggle');
+            
+            const navStyle = window.getComputedStyle(nav);
+            // On mobile, the navigation should be visible and not hidden
+            const isVisible = navStyle.display !== 'none' && navStyle.visibility !== 'hidden' && navStyle.opacity !== '0' && nav.getBoundingClientRect().width > 0;
+            
+            let hasHamburgerVisible = false;
+            if (hamburger) {
+                const btnStyle = window.getComputedStyle(hamburger);
+                hasHamburgerVisible = btnStyle.display !== 'none' && btnStyle.visibility !== 'hidden' && btnStyle.opacity !== '0';
+            }
+            
+            return {
+                hasHamburgerVisible: hasHamburgerVisible,
+                isVisible: isVisible
+            };
+        });
+
+        const noTransformationPass = !mobileResults.hasHamburgerVisible && mobileResults.isVisible;
+        results.interactionTransformation = noTransformationPass;
+        console.log(`  No Interaction Transformation: ${noTransformationPass ? 'PASS' : 'FAIL'} (Mobile btn visible: ${mobileResults.hasHamburgerVisible}, Nav visible: ${mobileResults.isVisible})`);
+    }
+
     await page.close();
 
     // Calculate score
@@ -138,6 +210,11 @@ async function runBenchmark(browser, name, url, options = {}) {
     }
     // Accessibility (10)
     if (results.accessibility) score += 10;
+    
+    // Interaction Transformation (15 - simulated grading impact)
+    if (options.checkInteractionTransformation || options.checkNoTransformation) {
+        if (results.interactionTransformation) score += 15;
+    }
 
     console.log(`  Automated Score: ${score}/50`);
     return { results, score, mobilePass, regression };
@@ -161,6 +238,8 @@ async function runBenchmark(browser, name, url, options = {}) {
     await runBenchmark(browser, 'Iframe Containment', 'iframe-containment/index.html');
     await runBenchmark(browser, 'Cross Component (P1)', 'cross-component/page1.html');
     await runBenchmark(browser, 'Cross Component (P2)', 'cross-component/page2.html');
+    await runBenchmark(browser, 'Responsive Nav Transformation', 'responsive-navigation-transformation/index.html', { checkInteractionTransformation: true });
+    await runBenchmark(browser, 'Responsive Nav No Transformation', 'responsive-navigation-no-transformation/index.html', { checkNoTransformation: true });
     
     await browser.close();
 })();
