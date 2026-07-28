@@ -1,5 +1,14 @@
 # Changelog - Responsive Engineer
 
+## [v0.6] - Production Hardening & Universal Responsive Audit
+### Added
+- **Full-Site Audit Mode (Mode C):** Introduced the primary operating mode for real production applications where the agent independently discovers, inventories, and maps the entire application to find responsive defects.
+- **Universal Responsive Audit Categories:** Formalized Fluid Adaptation (Category A), Interaction Transformation (Category B), and Content & Composition Adaptation (Category C).
+- **Component-Specific Audit Rules:** Added explicit rules for Cards, Buttons, Form Toolbars, Tables, Icon Clusters, and Modals/Drawers.
+- **Finding Prioritization System:** Added P0-P4 severity classifications and a structured repair sequence (e.g. fix critical structural overflow before visual polish).
+- **Shared Component Blast Radius:** Enforced strict regression testing on shared components to prevent patching one page at the expense of another.
+- **Standardized Health Reports:** Developed `v0.6-responsive-health-report.md` output structure for exhaustive audits.
+- **Universal Audit Benchmarks:** Upgraded the advanced content composition benchmarks to validate against over-padded cards, nested container explosions, long buttons, dense toolbars, and long heading metadata.
 ## [v0.5] - Responsive Content Density & Mobile Composition
 ### Added
 - **Category C — Content & Composition Adaptation:** Introduced a formal category for evaluating mobile spacing, visual density, and readability, recognizing that a layout may technically fit within the viewport but still be non-responsive from a usability perspective.
