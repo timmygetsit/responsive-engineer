@@ -64,6 +64,37 @@ async function runBenchmark(browser, name, url, options = {}) {
         if (vpWidth > 768 && geo.hasPageOverflow) regression = true;
     }
 
+    if (options.checkInputFocus) {
+        await page.setViewportSize({ width: 320, height: 480 });
+        const focusResults = await page.evaluate(async () => {
+            const input = document.querySelector('input');
+            if (!input) return { error: "No input found" };
+            
+            // Focus the input
+            input.focus();
+            
+            // Wait for any browser zoom/layout shift (simulated)
+            await new Promise(r => setTimeout(r, 100));
+            
+            const bodyWidth = document.body.scrollWidth;
+            const windowWidth = window.innerWidth;
+            const rect = input.getBoundingClientRect();
+            
+            return {
+                isZoomed: windowWidth < 320, // Naive heuristic for zoom
+                hasOverflow: bodyWidth > windowWidth,
+                inputWidth: rect.width,
+                windowWidth: windowWidth
+            };
+        });
+        
+        results.focusState = focusResults;
+        const focusPass = !focusResults.hasOverflow;
+        console.log(`  Focus State Overflow: ${focusPass ? 'PASS' : 'FAIL'} (Input width: ${focusResults.inputWidth}px, Overflow: ${focusResults.hasOverflow})`);
+        
+        if (!focusPass) mobilePass = false;
+    }
+
     if (options.checkIntentionalOverflow) {
         const { selector } = options.checkIntentionalOverflow;
         const overflowStatus = await page.evaluate((sel) => {
@@ -252,6 +283,18 @@ async function runBenchmark(browser, name, url, options = {}) {
     await runBenchmark(browser, 'Long Heading and Metadata', 'responsive-content-composition/08-long-heading-metadata.html');
     await runBenchmark(browser, 'Multiple Horizontal Actions', 'responsive-content-composition/09-multiple-horizontal-actions.html');
     await runBenchmark(browser, 'No-Change Composition', 'responsive-content-composition/10-no-change-composition.html');
+
+    // Spatial Recomposition Benchmarks
+    await runBenchmark(browser, 'Broken Two Column Hero', 'responsive-spatial-recomposition/01-broken-two-column-hero.html');
+    await runBenchmark(browser, 'Broken Sidebar Layout', 'responsive-spatial-recomposition/02-broken-sidebar-layout.html');
+    await runBenchmark(browser, 'Broken Card Grid', 'responsive-spatial-recomposition/03-broken-card-grid.html');
+    await runBenchmark(browser, 'Hero Priority Reordering', 'responsive-spatial-recomposition/04-hero-priority-reordering.html');
+    await runBenchmark(browser, 'Nested Grid Collapse', 'responsive-spatial-recomposition/05-nested-grid-collapse.html');
+    await runBenchmark(browser, 'Fixed Sidebar', 'responsive-spatial-recomposition/06-fixed-sidebar.html');
+    await runBenchmark(browser, 'Mobile Input Auto-Zoom', 'responsive-spatial-recomposition/07-mobile-input-auto-zoom.html', { checkInputFocus: true });
+    await runBenchmark(browser, 'Input Overflow', 'responsive-spatial-recomposition/08-input-overflow.html', { checkInputFocus: true });
+    await runBenchmark(browser, 'Input Button Group', 'responsive-spatial-recomposition/09-input-button-group.html', { checkInputFocus: true });
+    await runBenchmark(browser, 'Hero Card Action Cluster', 'responsive-spatial-recomposition/10-hero-card-action-cluster.html');
 
     await browser.close();
 })();

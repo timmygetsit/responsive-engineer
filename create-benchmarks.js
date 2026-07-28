@@ -4,6 +4,9 @@ const path = require('path');
 const dir = 'benchmarks/responsive-content-composition';
 if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
 
+const spatialDir = 'benchmarks/responsive-spatial-recomposition';
+if (!fs.existsSync(spatialDir)) fs.mkdirSync(spatialDir, { recursive: true });
+
 const template = (title, body) => `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -149,4 +152,129 @@ const benchmarks = [
 benchmarks.forEach(b => {
   fs.writeFileSync(path.join(dir, b.name), template(b.title, b.body));
 });
-console.log('Successfully created 10 benchmark HTML files.');
+
+const spatialBenchmarks = [
+  {
+    name: '01-broken-two-column-hero.html',
+    title: 'Broken Two Column Hero',
+    body: `  <div style="display: flex; gap: 32px; padding: 24px; flex-wrap: wrap;">
+    <div style="flex: 1 1 300px;">
+      <h1>Hero Text</h1>
+      <p>This is a hero description.</p>
+    </div>
+    <div style="flex: 1 1 300px; background: #eee; padding: 24px;">
+      <h2>Supporting Card</h2>
+    </div>
+  </div>`
+  },
+  {
+    name: '02-broken-sidebar-layout.html',
+    title: 'Broken Sidebar Layout',
+    body: `  <div style="display: flex; gap: 32px; padding: 24px; flex-wrap: wrap;">
+    <main style="flex: 3 1 300px;">
+      <h2>Main Content</h2>
+      <p>Body content goes here.</p>
+    </main>
+    <aside style="flex: 1 1 300px; background: #f9f9f9; padding: 16px;">
+      <h3>Sidebar</h3>
+    </aside>
+  </div>`
+  },
+  {
+    name: '03-broken-card-grid.html',
+    title: 'Broken Card Grid',
+    body: `  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 16px; padding: 24px;">
+    <div style="background: #eee; padding: 16px;">Card 1</div>
+    <div style="background: #eee; padding: 16px;">Card 2</div>
+    <div style="background: #eee; padding: 16px;">Card 3</div>
+    <div style="background: #eee; padding: 16px;">Card 4</div>
+  </div>`
+  },
+  {
+    name: '04-hero-priority-reordering.html',
+    title: 'Hero With Priority Reordering',
+    body: `  <div class="hero-container" style="display: flex; gap: 32px; padding: 24px; flex-wrap: wrap;">
+    <div class="marketing-content" style="flex: 1 1 300px;">
+      <h1>Marketing Content</h1>
+      <p>Value proposition.</p>
+    </div>
+    <div class="cta-card" style="flex: 1 1 300px; background: #fee; padding: 24px;">
+      <h2>Important CTA Card</h2>
+      <button style="padding: 12px 24px; min-height: 44px;">Sign Up Now</button>
+    </div>
+  </div>`
+  },
+  {
+    name: '05-nested-grid-collapse.html',
+    title: 'Nested Grid Collapse',
+    body: `  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; padding: 16px;">
+    <div style="background: #ccc; padding: 16px;">Sidebar</div>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 16px;">
+      <div style="background: #eee; padding: 16px;">Grid Item 1</div>
+      <div style="background: #eee; padding: 16px;">Grid Item 2</div>
+    </div>
+  </div>`
+  },
+  {
+    name: '06-fixed-sidebar.html',
+    title: 'Fixed Sidebar',
+    body: `  <div style="display: flex; padding: 16px; flex-wrap: wrap;">
+    <div style="flex: 1 1 300px; background: #fafafa; padding: 16px;">
+      <h2>Fixed Sidebar</h2>
+      <ul><li>Item 1</li><li>Item 2</li></ul>
+    </div>
+    <div style="flex: 1 1 300px; padding: 16px;">
+      <h2>Main Content</h2>
+    </div>
+  </div>`
+  },
+  {
+    name: '07-mobile-input-auto-zoom.html',
+    title: 'Mobile Input Auto-Zoom',
+    body: `  <div style="padding: 24px;">
+    <label for="email" style="display: block; margin-bottom: 8px;">Email Address</label>
+    <input type="email" id="email" style="font-size: 16px; padding: 12px; width: 100%; max-width: 300px; box-sizing: border-box;" placeholder="Enter email">
+  </div>`
+  },
+  {
+    name: '08-input-overflow.html',
+    title: 'Input Overflow',
+    body: `  <div style="padding: 16px;">
+    <input type="text" style="width: 100%; max-width: 500px; padding: 12px; font-size: 16px; box-sizing: border-box;" placeholder="Search...">
+  </div>`
+  },
+  {
+    name: '09-input-button-group.html',
+    title: 'Input + Button Group',
+    body: `  <div style="display: flex; gap: 8px; padding: 16px; flex-wrap: wrap;">
+    <input type="text" style="flex: 1 1 200px; padding: 12px; font-size: 16px; box-sizing: border-box;" placeholder="Enter address">
+    <button style="padding: 12px 24px; font-size: 16px; white-space: nowrap; min-height: 44px; flex: 1 1 auto; box-sizing: border-box;">Find Locations</button>
+  </div>`
+  },
+  {
+    name: '10-hero-card-action-cluster.html',
+    title: 'Hero + Card + Action Cluster',
+    body: `  <div style="display: flex; gap: 32px; padding: 24px; flex-wrap: wrap;">
+    <div style="flex: 1 1 300px;">
+      <h1>Main Headline</h1>
+      <p>Description text</p>
+      <div style="display: flex; gap: 16px; align-items: center; flex-wrap: wrap;">
+        <button style="padding: 12px 24px; min-height: 44px;">Primary CTA</button>
+        <button style="padding: 12px 24px; min-height: 44px;">Secondary</button>
+        <span>Share:</span>
+        <button style="width: 44px; height: 44px; background: #ccc; border-radius: 50%; border: none;"></button>
+        <button style="width: 44px; height: 44px; background: #ccc; border-radius: 50%; border: none;"></button>
+      </div>
+    </div>
+    <div style="flex: 1 1 300px; background: #f0f0f0; padding: 24px;">
+      <h2>Supporting Card</h2>
+    </div>
+  </div>`
+  }
+];
+
+spatialBenchmarks.forEach(b => {
+  fs.writeFileSync(path.join(spatialDir, b.name), template(b.title, b.body));
+});
+
+console.log('Successfully created 20 benchmark HTML files.');
