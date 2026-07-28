@@ -241,5 +241,17 @@ async function runBenchmark(browser, name, url, options = {}) {
     await runBenchmark(browser, 'Responsive Nav Transformation', 'responsive-navigation-transformation/index.html', { checkInteractionTransformation: true });
     await runBenchmark(browser, 'Responsive Nav No Transformation', 'responsive-navigation-no-transformation/index.html', { checkNoTransformation: true });
     
+    // Content Composition Benchmarks
+    await runBenchmark(browser, 'Over-Padded Card', 'responsive-content-composition/01-over-padded-card.html');
+    await runBenchmark(browser, 'Nested Container Padding Explosion', 'responsive-content-composition/02-nested-container-padding.html');
+    await runBenchmark(browser, 'Long Action + Social Icons', 'responsive-content-composition/03-long-action-social.html');
+    await runBenchmark(browser, 'Long Button Label', 'responsive-content-composition/04-long-button-label.html');
+    await runBenchmark(browser, 'Dense Action Toolbar', 'responsive-content-composition/05-dense-action-toolbar.html');
+    await runBenchmark(browser, 'Card Content Hierarchy', 'responsive-content-composition/06-card-content-hierarchy.html');
+    await runBenchmark(browser, 'Mobile Content Prioritization', 'responsive-content-composition/07-mobile-content-prioritization.html');
+    await runBenchmark(browser, 'Long Heading and Metadata', 'responsive-content-composition/08-long-heading-metadata.html');
+    await runBenchmark(browser, 'Multiple Horizontal Actions', 'responsive-content-composition/09-multiple-horizontal-actions.html');
+    await runBenchmark(browser, 'No-Change Composition', 'responsive-content-composition/10-no-change-composition.html');
+
     await browser.close();
 })();

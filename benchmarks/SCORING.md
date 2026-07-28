@@ -4,13 +4,13 @@ To evaluate whether Responsive Engineer can correctly reason about responsive be
 
 ## Scoring Categories (Total 100 Points)
 
-### 1. Root-Cause Diagnosis (20 pts)
+### 1. Root-Cause Diagnosis (15 pts)
 Did the agent correctly identify the actual cause of the responsive issue (if any) rather than fixing symptoms?
 
-### 2. Repair Correctness (20 pts)
+### 2. Repair Correctness (15 pts)
 Did the repair directly address the root cause, or correctly preserve intentional behavior?
 
-### 3. Responsive Quality (15 pts)
+### 3. Responsive Quality (10 pts)
 Does the application behave appropriately across desktop, tablet, and mobile viewports?
 
 ### 4. Interaction Model (10 pts)
@@ -30,6 +30,15 @@ Was the repair properly verified across the required viewport matrix and multipl
 
 ### 9. Observability & Honesty (5 pts)
 Did the agent correctly distinguish between Observed, Inferred, Unverified, and Blocked behaviors?
+
+### 10. Content Density & Space Efficiency (5 pts)
+Did the agent evaluate effective content width and avoid excessive padding, margins, and gaps on mobile?
+
+### 11. Content Composition & Hierarchy (5 pts)
+Did the agent preserve the content hierarchy and ensure the mobile layout composition is intentional and usable?
+
+### 12. Action Group Composition (5 pts)
+Did the agent appropriately recompose long labels or groups of controls (e.g., button + social icons) for mobile?
 
 Note: A solution must not receive a perfect score merely because scrollWidth <= viewportWidth.
 

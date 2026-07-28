@@ -41,16 +41,77 @@ Every discovered condition must be classified as exactly one primary category:
 
 Do not force every audit to produce a repair. A successful evaluation may result in zero code changes.
 
-## Interaction Transformation (Category A vs B)
-Responsive engineering has two distinct categories of adaptation. You must evaluate which category applies:
+## Core Responsive Adaptation Categories
+Responsive engineering has three distinct categories of adaptation. You must evaluate which category applies:
 
 **Category A — Fluid Adaptation**
-The existing interaction model remains appropriate for the viewport.
-Examples: Fluid widths, flexbox wrapping, grid reflow, content resizing, intrinsic sizing, `max-width: 100%`.
+The same component and interaction model remain, but the geometry adapts.
+Examples: Fluid widths, fluid containers, flex/text wrapping, grid column reduction, responsive images, reduced gaps/padding, card width adaptation, `max-width: 100%`.
 
 **Category B — Interaction Transformation**
 The existing desktop interaction model is no longer appropriate and must change to remain usable.
-Examples: Desktop navigation → hamburger menu, dense action group → "More" menu, wide table → localized horizontal scroll, horizontal toolbar → vertical controls.
+Examples: Desktop navigation → hamburger menu, sidebar → drawer, desktop toolbar → overflow menu, large modal → bottom sheet, dense control group → compact mobile interaction.
+
+**Category C — Content & Composition Adaptation**
+The content remains functionally present, but its visual composition, hierarchy, density, spacing, or presentation changes to remain usable on mobile. 
+Examples:
+- Large desktop card padding → compact mobile card padding.
+- Excessive page margins → reduced mobile margins.
+- Nested horizontal padding → consolidated mobile spacing.
+- Long desktop button label → contextually shorter visible mobile label.
+- Long button + social icons → separate mobile action groups.
+- Horizontal actions → vertical or grouped composition.
+- Dense metadata → reordered or deprioritized presentation.
+- Large heading → controlled responsive wrapping.
+- Multiple desktop card columns → single-column mobile composition.
+- Desktop content hierarchy → mobile-first hierarchy.
+- Secondary content → collapsed or progressive disclosure where appropriate.
+
+This category is NOT equivalent to simply adding media queries. The agent must reason about the relationship between available viewport width, content width, hierarchy, spacing, and usability.
+
+## Content Density & Mobile Space Efficiency
+
+**Core Principle:** Responsive engineering is not merely the prevention of overflow. A layout may technically fit within the viewport and still be non-responsive from a usability perspective. The agent must distinguish Structural correctness, Visual usability, Content readability, Interaction suitability, Space efficiency, Accessibility, and Information hierarchy.
+
+**Available Content Width:**
+The agent should reason about:
+Viewport Width - Page Horizontal Padding - Container Margins - Card Padding - Nested Container Padding - Internal Gaps = Effective Content Width.
+The agent must investigate whether excessive spacing creates an unnecessarily narrow content area. Evaluate effective content width, not only scrollWidth. Do not automatically minimize all whitespace; preserve intentional visual breathing room where it contributes to hierarchy and readability (Usable density, not maximum density).
+
+**Mobile Space Efficiency:**
+Identify disproportionate horizontal or vertical space consumption caused by:
+- Excessive outer margins, page padding, card padding, nested container padding.
+- Excessive gaps between controls, oversized buttons, long labels consuming unnecessary width.
+- Social icons separated by excessive spacing, components occupying disproportionate viewport area.
+Distinguish between **Intentional whitespace** (improves hierarchy, readability, scannability, visual grouping, touch usability) and **Wasteful whitespace** (unnecessarily reduces content width, causes avoidable wrapping, forces controls into awkward layouts, makes cards feel empty, pushes important content below the fold, creates poor mobile composition). Optimize for usable content density.
+
+## Content Composition Decision Framework
+For every major mobile component, evaluate:
+1. **Does it fit?** If no: Diagnose structural layout constraints.
+2. **Does it remain usable?** If no: Apply fluid adaptation or composition adaptation.
+3. **Does the interaction model still make sense?** If no: Apply interaction transformation.
+4. **Is the content readable?** If no: Consider reflow, wrapping, typography adjustment, content hierarchy, selective restructuring.
+5. **Is spacing consuming disproportionate viewport width?** If yes: Investigate page padding, card padding, nested padding, gaps, margins. Reduce only where evidence supports it.
+6. **Is the content hierarchy preserved?** If no: Recompose the mobile layout.
+7. **Does the result feel intentionally designed for mobile?** If no: Treat the problem as a composition issue rather than merely a CSS sizing issue.
+
+## Component Responsiveness Rules
+
+**Card Responsiveness Rules**
+Inspect distance from viewport edge to card, distance from card edge to content, card internal padding, nested container padding, card content width, heading wrapping, body text width, button width, image dimensions, metadata density. Consider whether desktop spacing values are excessive at mobile widths. Do NOT mandate specific pixel values; derive appropriate spacing from viewport width, content density, design system, spacing scale, and component hierarchy.
+
+**Long Button and Action Composition Rules**
+Consider a shorter visible label on mobile ONLY when:
+1. The shortened label preserves meaning.
+2. The user can still understand the destination.
+3. The full semantic meaning remains available to assistive technology where appropriate.
+4. The interaction remains discoverable.
+5. The change does not introduce ambiguity.
+Do not blindly shorten labels or hide meaningful content solely to make a layout fit. Where appropriate, use responsive visible labels, accessible names, tooltips, `aria-label`, icon+text combinations, or contextually shorter labels. Verify accessibility after any content transformation.
+
+**Button + Social Icon Composition**
+When a long action button shares a row with social icons or other controls, evaluate the entire composition as a group (Total group width, button width, icon group width, gap between groups, alignment, visual hierarchy, touch targets, wrapping behavior).
+Possible mobile strategies include separate rows, button full-width, social icons grouped beneath, social icons aligned independently, reduced gaps, contextually shorter visible label, stacked action composition. Select the strategy that best preserves hierarchy, usability, accessibility, and design intent. Do not introduce arbitrary layouts simply to satisfy a geometry check.
 
 ## Core Workflow (The Repair Loop)
 When tasked with responsive work, you MUST execute the following loop:
@@ -78,9 +139,13 @@ When tasked with responsive work, you MUST execute the following loop:
 Determine if the user wants to BUILD, AUDIT, or REPAIR.
 Write down a temporary "Responsive Contract" for the component(s) in question. This defines how it *should* behave.
 The contract MUST include Geometry, Layout, Overflow, Breakpoints, Accessibility, and the **Interaction Model** (Desktop, Tablet, Mobile models; Expected transformation point; Trigger behavior; Expanded/collapsed behavior; Preservation of functionality).
+The contract must now include:
+- **Content Density**: Document effective content width, outer spacing, internal spacing, card density, action density, text wrapping, content hierarchy.
+- **Composition**: Document desktop, tablet, and mobile compositions. Document components that remain unchanged, fluidly adapt, transform, or recompose.
+- **Content Adaptation**: Document whether content remains unchanged, wraps, reorders, condenses, uses shorter visible labels, or uses progressive disclosure.
 
 **Evaluation Coverage Tracking:**
-As part of the Responsive Contract, you must explicitly track coverage:
+As part of the Responsive Contract, you must explicitly track coverage for each decision (e.g. OBSERVED, INFERRED, UNVERIFIED, or BLOCKED):
 - **Observed**: Behaviors verified through actual rendering.
 - **Inferred**: Behaviors inferred from source code rather than observed in a browser.
 - **Unverified**: Behaviors that could not be evaluated.
@@ -129,6 +194,7 @@ When an application cannot fully render because external APIs, databases, or int
 Prove the fix works objectively using Visual Responsiveness Verification:
 - **Structural Responsiveness**: No unintended page overflow; elements fit containers; layout reflows correctly.
 - **Interaction Responsiveness**: Appropriate navigation model, controls, density, and touch targets.
+- **Content Usability Verification**: Content has sufficient usable width; cards are not excessively padded; nested containers do not waste viewport width; text remains readable; headings wrap naturally; buttons remain usable; long labels do not create awkward compositions; action groups maintain clear hierarchy; social controls remain discoverable; important content is not unnecessarily pushed below the fold.
 - **Visual Responsiveness**: Header balanced, logo visible, navigation not cramped, controls don't collide, mobile menu hierarchy clear, desktop appearance preserved.
 - **Accessibility**: Ensure keyboard focusable, text scales cleanly, touch targets ≥44px. For transformed components (e.g., hamburger menu): semantic `<button>`, accessible name, `aria-expanded`, keyboard/escape operation, and focus retention.
 

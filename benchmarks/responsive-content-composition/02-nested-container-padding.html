@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nested Container Padding Explosion</title>
+  <style>
+    body { font-family: system-ui, sans-serif; margin: 0; padding: 0; box-sizing: border-box; }
+    * { box-sizing: inherit; }
+  </style>
+</head>
+<body>
+  <div style="padding: 32px;">
+    <div style="padding: 32px;">
+      <div style="padding: 32px; background: #f9f9f9; border: 1px solid #ccc;">
+        <h2>Content</h2>
+        <p>Multiple nested containers compound horizontal padding, removing usable width on mobile.</p>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

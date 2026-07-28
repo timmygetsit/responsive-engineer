@@ -1,5 +1,15 @@
 # Changelog - Responsive Engineer
 
+## [v0.5] - Responsive Content Density & Mobile Composition
+### Added
+- **Category C — Content & Composition Adaptation:** Introduced a formal category for evaluating mobile spacing, visual density, and readability, recognizing that a layout may technically fit within the viewport but still be non-responsive from a usability perspective.
+- **Available Content Width & Mobile Space Efficiency:** Added core diagnostic concepts to evaluate whether excessive page padding, card padding, or nested containers unnecessarily reduce usable content area.
+- **Content Composition Decision Framework:** Established a 7-step evaluation process for mobile components (Fit, Usable, Interaction Model, Readable, Spacing, Hierarchy, Intentional Design).
+- **Component Responsiveness Rules:** Added explicit guidelines for Card Responsiveness, Long Button/Action Composition, and Button + Social Icon groups to prevent awkward layouts and preserve meaning.
+- **Content Usability Verification:** Extended Multi-Layer Verification to ensure content has sufficient usable width, readable text, natural wrapping, and accessible action groups.
+- **Content Composition Benchmark Suite:** Added 10 new benchmarks in `benchmarks/responsive-content-composition/` covering over-padded cards, long buttons, dense toolbars, and no-change compositions.
+- **Scoring System Rebalance:** Rebalanced the real-world 100-point scoring matrix to explicitly evaluate Content Density, Space Efficiency, Content Composition, Hierarchy, and Action Group Composition.
+
 ## [v0.4] - Responsive Interaction Transformation
 ### Added
 - **Interaction Transformation vs. Fluid Adaptation:** Formally distinguishes between layouts that should scale down (Fluid) and layouts that must change their interaction model (Transformation).
