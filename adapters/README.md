@@ -1,11 +1,12 @@
 # Agent Adapters
 
-This directory contains adapter instructions for various agent platforms. 
+This directory contains integration and adapter documentation for various AI coding agent platforms.
 
-Because each AI coding agent loads and executes skills differently, these adapters explain how to install and execute the Responsive Engineer workflow on each platform. 
+Because each AI agent loads skills and interacts with developer tools differently, these adapters specify how to install, trigger, and verify the Responsive Engineer workflow on each platform.
 
 ## Supported Adapters
-*   `antigravity/` - Integration instructions for Google Antigravity.
-*   `codex/` - Instructions for OpenAI Codex.
-*   `claude-code/` - Integration for Claude Code.
-*   `generic/` - Instructions for standalone or other text-based AI models.
+
+- [Google Antigravity](antigravity/README.md)
+- [Claude Code](claude-code/README.md)
+- [Cursor / Windsurf](cursor/README.md)
+- [OpenAI Codex](codex/README.md)

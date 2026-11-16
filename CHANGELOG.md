@@ -1,5 +1,19 @@
 # Changelog - Responsive Engineer
 
+## [v0.8.0] - Mandatory 320px Stress Test & Mobile Content Utilization Audit
+### Added
+- **Mobile Content Utilization Audit:** Introduced a formal audit category explicitly enforcing the evaluation of content density. The skill must now systematically inspect the width chain: Viewport → outer page spacing → section/container spacing → card spacing → content spacing → actual readable content width.
+- **Permanent Regression Standard:** Formalized the v0.7.0 benchmark (`benchmarks/mobile-content-utilization/index.html`) as a permanent regression test to ensure content-density behavior is enforced on all future versions.
+- **Strict 320px Enforcement:** Elevated the `320px × 568px` viewport from a recommended stress test to a strictly mandatory minimum-width test. This viewport must never be treated as optional, establishing a hard baseline for structural mobile resilience alongside the standard matrix (375px, 390px, 430px, 768px, 1024px, 1440px, 1920px).
+
+## [v0.7.0] - 320px Stress Testing & Content-Density Optimization
+### Added
+- **Mandatory 320px Stress Test:** Enforced 320px as the primary mobile stress test, treating it as an immutable standard to guarantee extreme narrow-viewport resilience.
+- **Content-Density Optimization & Usable Width Analysis:** Added strict principles to evaluate the entire width chain (viewport -> page padding -> container padding -> card padding -> content) to reclaim wasted space before touching typography.
+- **Responsive Decision Hierarchy:** Implemented an 8-step decision order that prohibits shrinking text or hiding overflow as a first-line solution, prioritizing outer margins, padding, gaps, and column adjustments.
+- **Enhanced Typography & Readability Rules:** Mandated a minimum readability rule prohibiting text from being shrunk to unreadable sizes to force a fit, demanding structural fixes instead.
+- **Progressive Visual Balance:** Added rules against aggressively reducing padding to zero for the sake of mathematical width, ensuring the UI remains visually balanced.
+
 ## [v0.6] - Production Hardening & Universal Responsive Audit
 ### Added
 - **Full-Site Audit Mode (Mode C):** Introduced the primary operating mode for real production applications where the agent independently discovers, inventories, and maps the entire application to find responsive defects.

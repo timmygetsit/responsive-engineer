@@ -1,0 +1,38 @@
+name: Bug Report
+description: Report an unexpected layout failure, false positive, or benchmark regression
+title: "[Bug]: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: Thank you for reporting an issue with Responsive Engineer!
+  - type: input
+    id: environment
+    attributes:
+      label: Agent / Framework Environment
+      description: What AI coding agent (Claude Code, Antigravity, Cursor, etc.) and frontend framework was used?
+      placeholder: e.g. Antigravity + Next.js Tailwind CSS
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: Bug Description
+      description: Clear and concise description of what went wrong.
+    validations:
+      required: true
+  - type: input
+    id: viewports
+    attributes:
+      label: Affected Viewports
+      description: e.g. 320px, 375px, 768px
+      placeholder: 320px
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected Behavior
+      description: How should the layout adapt according to the Responsive Decision Hierarchy?
+    validations:
+      required: true

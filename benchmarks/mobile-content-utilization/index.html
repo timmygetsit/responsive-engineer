@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Responsive Benchmark v0.7.0</title>
+    <style>
+        /* Base Styles */
+        body { font-family: Arial, sans-serif; margin: 0; padding: 0; background: #f4f4f4; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        
+        /* Test A — Excessive Viewport Gutters */
+        .test-a-container { padding: 0 48px; margin-top: 20px;}
+        .test-a-card { background: white; border: 1px solid #ccc; padding: 16px; }
+
+        /* Test B — Excessive Card Padding */
+        .test-b-container { margin: 20px 32px; }
+        .test-b-card { background: white; padding: 48px; border: 1px solid #ccc; }
+        .test-b-title { font-size: 24px; }
+        .test-b-price { font-size: 20px; font-weight: bold; }
+        .test-b-btn { display: inline-block; padding: 12px 24px; background: blue; color: white; text-decoration: none; }
+
+        /* Test C — Nested Padding Waste */
+        .test-c-section { padding: 24px; }
+        .test-c-container { padding: 24px; }
+        .test-c-card { padding: 24px; background: white; border: 1px solid #ccc; }
+        .test-c-content { padding: 24px; background: #eee; }
+
+        /* Test D — Oversized Typography */
+        .test-d-hero { text-align: center; padding: 40px; background: #ddd; margin: 20px 0; }
+        .test-d-hero h1 { font-size: 64px; margin: 0; }
+        
+        /* Test E — Long Nigerian Content */
+        .test-e-card { background: white; padding: 20px; margin: 20px 0; border: 1px solid #ccc;}
+
+        /* Test F — Long Unbroken String */
+        .test-f-container { padding: 20px; background: white; margin: 20px 0; }
+        
+        /* Test G — Two-Column Mobile Cards */
+        .test-g-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; padding: 24px; margin: 20px 0; background: #eaeaea; }
+        .test-g-card { background: white; padding: 20px; border: 1px solid #ccc; }
+
+        /* Test H — Fixed-Width Input */
+        .test-h-form { padding: 20px; background: white; margin: 20px 0; }
+        .test-h-form input { width: 400px; padding: 10px; }
+
+        /* Test I — Flexbox Blowout */
+        .test-i-flex { display: flex; padding: 20px; background: white; margin: 20px 0; gap: 20px; }
+        .test-i-item { border: 1px solid #ccc; padding: 10px; }
+        .test-i-text { white-space: nowrap; }
+
+        /* Test J — Wide Table */
+        .test-j-table-container { padding: 20px; background: white; margin: 20px 0; }
+        table { border-collapse: collapse; width: 800px; }
+        th, td { border: 1px solid #ccc; padding: 10px; }
+
+        /* Test K — Oversized Button Group */
+        .test-k-btn-group { padding: 20px; background: white; display: flex; gap: 20px; margin: 20px 0;}
+        .test-k-btn { padding: 16px 32px; font-size: 20px; background: green; color: white; border: none; white-space: nowrap;}
+
+        /* Test L — Image Overflow */
+        .test-l-container { padding: 20px; background: white; margin: 20px 0;}
+        .test-l-img { width: 500px; }
+
+        /* Test M — Footer Density */
+        .test-m-footer { display: flex; justify-content: space-between; padding: 64px; background: #333; color: white; margin-top: 20px;}
+        .test-m-footer-col { padding: 20px; }
+
+        /* Test N — Legitimate Horizontal Overflow */
+        .test-n-container { padding: 20px; background: white; margin: 20px 0; overflow-x: auto; max-width: 100%;}
+        .test-n-wide-content { width: 1000px; background: #eee; padding: 20px; }
+
+        /* --- RESPONSIVE REPAIRS v0.7.0 --- */
+        @media (max-width: 767px) {
+            /* Decision 1 & 2: Reduce excessive outer margins and container/card padding */
+            .test-a-container { padding: 0 16px; }
+            .test-b-container { margin: 20px 16px; }
+            .test-b-card { padding: 16px; }
+            
+            /* Decision 2: Nested Padding Waste - reduce redundant layers */
+            .test-c-section, .test-c-container, .test-c-content { padding: 0; }
+            .test-c-card { padding: 16px; }
+            
+            /* Decision 7: Reduce typography moderately (after checking spacing) */
+            .test-d-hero h1 { font-size: 32px; }
+            
+            /* Long Text Wrapping */
+            .test-f-container { overflow-wrap: anywhere; }
+            
+            /* Decision 5: Reduce grid columns */
+            .test-g-grid { grid-template-columns: 1fr; }
+            
+            /* Form Width */
+            .test-h-form input { max-width: 100%; box-sizing: border-box; }
+            
+            /* Flexbox Blowout: min-width: 0 and normal wrapping */
+            .test-i-text { white-space: normal; min-width: 0; }
+            
+            /* Table Overflow: Contain locally */
+            /* .test-j-table-container already has max-width: 100% and we add overflow-x: auto if it didn't exist, wait, it doesn't have it. */
+            .test-j-table-container { overflow-x: auto; max-width: 100%; }
+            
+            /* Decision 4 & 6: Button grouping wrap */
+            .test-k-btn-group { flex-wrap: wrap; }
+            
+            /* Image Fluidity */
+            .test-l-img { max-width: 100%; height: auto; }
+            
+            /* Decision 4: Horizontal to vertical stack for footer */
+            .test-m-footer { flex-direction: column; padding: 24px; gap: 24px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        
+        <!-- Test A -->
+        <div class="test-a-container">
+            <div class="test-a-card">Test A: Excessive Viewport Gutters</div>
+        </div>
+
+        <!-- Test B -->
+        <div class="test-b-container">
+            <div class="test-b-card">
+                <h2 class="test-b-title">Test B: Excessive Card Padding Product</h2>
+                <div class="test-b-price">$199.99</div>
+                <p>This is a product description that might wrap.</p>
+                <a href="#" class="test-b-btn">Buy Now</a>
+            </div>
+        </div>
+
+        <!-- Test C -->
+        <div class="test-c-section">
+            <div class="test-c-container">
+                <div class="test-c-card">
+                    <div class="test-c-content">
+                        Test C: Nested Padding Waste
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Test D -->
+        <div class="test-d-hero">
+            <h1>Oversized Typography</h1>
+            <p>Welcome to our very large hero section.</p>
+            <button>Call to Action</button>
+        </div>
+
+        <!-- Test E -->
+        <div class="test-e-card">
+            <h3>Contact Us</h3>
+            <p>Plot 24, Allen Avenue, Ikeja, Lagos, Nigeria</p>
+            <p>Phone: +234 803 123 4567</p>
+            <p>WhatsApp: +234 901 234 5678</p>
+            <p>Email: sales@solarenergysolutions.com.ng</p>
+            <p>Price: ₦4,800,000</p>
+            <p>Product: 5kVA Hybrid Solar Inverter with Lithium Battery Backup System</p>
+        </div>
+
+        <!-- Test F -->
+        <div class="test-f-container">
+            <p>supercalifragilisticexpialidocious_supercalifragilisticexpialidocious_supercalifragilisticexpialidocious</p>
+        </div>
+
+        <!-- Test G -->
+        <div class="test-g-grid">
+            <div class="test-g-card">Card 1</div>
+            <div class="test-g-card">Card 2</div>
+        </div>
+
+        <!-- Test H -->
+        <div class="test-h-form">
+            <input type="text" placeholder="Fixed width input">
+        </div>
+
+        <!-- Test I -->
+        <div class="test-i-flex">
+            <div class="test-i-item">Image</div>
+            <div class="test-i-item test-i-text">Very long product title that shouldn't break out of the flex container</div>
+            <div class="test-i-item"><button>Buy</button></div>
+        </div>
+
+        <!-- Test J -->
+        <div class="test-j-table-container">
+            <table>
+                <tr><th>Spec 1</th><th>Spec 2</th><th>Spec 3</th><th>Spec 4</th><th>Spec 5</th><th>Spec 6</th></tr>
+                <tr><td>Data</td><td>Data</td><td>Data</td><td>Data</td><td>Data</td><td>Data</td></tr>
+            </table>
+        </div>
+
+        <!-- Test K -->
+        <div class="test-k-btn-group">
+            <button class="test-k-btn">Primary Action</button>
+            <button class="test-k-btn">Secondary Action</button>
+        </div>
+
+        <!-- Test L -->
+        <div class="test-l-container">
+            <img src="https://via.placeholder.com/500" alt="Test Image" class="test-l-img">
+        </div>
+
+        <!-- Test M -->
+        <footer class="test-m-footer">
+            <div class="test-m-footer-col">Logo & Address</div>
+            <div class="test-m-footer-col">Links</div>
+            <div class="test-m-footer-col">Socials</div>
+        </footer>
+
+        <!-- Test N -->
+        <div class="test-n-container">
+            <div class="test-n-wide-content">Legitimate wide content</div>
+        </div>
+
+    </div>
+</body>
+</html>

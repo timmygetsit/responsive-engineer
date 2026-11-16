@@ -3,8 +3,13 @@
 Antigravity natively supports agent tools like `browser_subagent` and `run_command`.
 
 ## Installation
-1. Move the `skill` directory contents into `.gemini/skills/responsive-engineer/`.
-2. Antigravity will auto-discover the `SKILL.md`.
+
+1. Copy the `responsive-engineer/` directory into `.gemini/skills/responsive-engineer/`.
+2. Antigravity will automatically discover the `SKILL.md` frontmatter and trigger it when responsive tasks arise.
 
 ## Execution
-When prompted for responsive work, Antigravity should prioritize the `browser_subagent` to visibly inspect layout overflow and then run the internal loop. It should also use `run_command` with Playwright (if available) to programmatically verify bounds.
+
+When prompted for responsive work, Antigravity should:
+1. Inspect layout overflow using `browser_subagent` or Playwright runner scripts via `run_command`.
+2. Follow the 8-step Responsive Decision Hierarchy in `responsive-engineer/SKILL.md`.
+3. Verify fixes at 320px, 768px, and 1024px+ using `node benchmarks/verify-all.js`.

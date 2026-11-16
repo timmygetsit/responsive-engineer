@@ -1,0 +1,6 @@
+[submodule "test-repos/nextjs-commerce"]
+	path = test-repos/nextjs-commerce
+	url = https://github.com/vercel/commerce.git
+[submodule "test-repos/vue-realworld"]
+	path = test-repos/vue-realworld
+	url = https://github.com/gothinkster/vue-realworld-example-app.git

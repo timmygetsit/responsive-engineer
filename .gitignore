@@ -1,0 +1,33 @@
+# Dependencies
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Operating System Files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Test Execution Artifacts
+benchmarks/screenshots/*_diff.png
+benchmarks/screenshots/*_candidate.png
+*.log
+
+# Submodule Build Caches & Dependencies
+test-repos/*/.vite/
+test-repos/*/node_modules/
+test-repos/*/dist/
+test-repos/*/.next/
+test-repos/*/.cache/
+
+# IDE & Editor Configuration
+.idea/
+*.swp
+*.swo
+*~

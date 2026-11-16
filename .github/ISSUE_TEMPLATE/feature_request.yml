@@ -1,0 +1,22 @@
+name: Feature Request
+description: Propose a new synthetic benchmark, audit category, or agent platform adapter
+title: "[Feature]: "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: Share your idea to make Responsive Engineer more effective across platforms!
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposal Summary
+      description: What capability or test case would you like to add?
+    validations:
+      required: true
+  - type: textarea
+    id: motivation
+    attributes:
+      label: Motivation & Use Case
+      description: Why is this important? How does it improve agent responsiveness?
+    validations:
+      required: true
