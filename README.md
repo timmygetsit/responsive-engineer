@@ -1,10 +1,16 @@
-# Responsive Engineer
+<p align="center">
+  <img src="assets/logo.png" width="160" height="160" alt="Responsive Engineer Logo" />
+</p>
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![Version](https://img.shields.io/badge/version-v0.8.0-emerald.svg)](CHANGELOG.md)
-[![Playwright Verified](https://img.shields.io/badge/Playwright-Automated_Verification-brightgreen.svg)](benchmarks/)
-[![Mandatory 320px](https://img.shields.io/badge/Stress_Test-320px_Mandatory-orange.svg)](responsive-engineer/SKILL.md)
-[![Agent Compatibility](https://img.shields.io/badge/Agents-Claude_Code_|_Antigravity_|_Cursor_|_Codex-purple.svg)](adapters/)
+<h1 align="center">Responsive Engineer</h1>
+
+<p align="center">
+  <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-blue.svg" alt="License: MIT" /></a>
+  <a href="CHANGELOG.md"><img src="https://img.shields.io/badge/version-v0.8.0-emerald.svg" alt="Version" /></a>
+  <a href="benchmarks/"><img src="https://img.shields.io/badge/Playwright-Automated_Verification-brightgreen.svg" alt="Playwright Verified" /></a>
+  <a href="responsive-engineer/SKILL.md"><img src="https://img.shields.io/badge/Stress_Test-320px_Mandatory-orange.svg" alt="Mandatory 320px" /></a>
+  <a href="adapters/"><img src="https://img.shields.io/badge/Agents-Claude_Code_|_Antigravity_|_Cursor_|_Codex-purple.svg" alt="Agent Compatibility" /></a>
+</p>
 
 **Responsive Engineer** is an autonomous AI agent capability and universal audit framework for inspecting, evaluating, and repairing responsive web interfaces.
 
