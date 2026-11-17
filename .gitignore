@@ -20,7 +20,8 @@ benchmarks/screenshots/*_diff.png
 benchmarks/screenshots/*_candidate.png
 *.log
 
-# Submodule Build Caches & Dependencies
+# Test Repositories & Submodule Build Caches
+test-repos/
 test-repos/*/.vite/
 test-repos/*/node_modules/
 test-repos/*/dist/
