@@ -1,0 +1,141 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <!-- Background Gradients -->
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0F172A" />
+      <stop offset="50%" stop-color="#0A0F1D" />
+      <stop offset="100%" stop-color="#030712" />
+    </linearGradient>
+    
+    <linearGradient id="borderGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#38BDF8" stop-opacity="0.4" />
+      <stop offset="50%" stop-color="#818CF8" stop-opacity="0.2" />
+      <stop offset="100%" stop-color="#C084FC" stop-opacity="0.05" />
+    </linearGradient>
+
+    <!-- Core Brand Gradients -->
+    <linearGradient id="cyanBlueGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00F0FF" />
+      <stop offset="60%" stop-color="#3B82F6" />
+      <stop offset="100%" stop-color="#6366F1" />
+    </linearGradient>
+
+    <linearGradient id="accentMintGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#10B981" />
+      <stop offset="100%" stop-color="#00F0FF" />
+    </linearGradient>
+
+    <linearGradient id="phoneBodyGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1E293B" stop-opacity="0.9" />
+      <stop offset="100%" stop-color="#0F172A" stop-opacity="0.95" />
+    </linearGradient>
+
+    <linearGradient id="desktopScreenGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1E293B" stop-opacity="0.4" />
+      <stop offset="100%" stop-color="#0F172A" stop-opacity="0.6" />
+    </linearGradient>
+
+    <!-- Glowing Filters -->
+    <filter id="ambientGlow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="48" result="blur" />
+    </filter>
+
+    <filter id="neonGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="8" result="blur" />
+      <feMerge>
+        <feMergeNode in="blur" />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+
+    <filter id="dropShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="12" stdDeviation="16" flood-color="#000000" flood-opacity="0.6" />
+    </filter>
+  </defs>
+
+  <!-- 1. Base App Icon Squircle Container -->
+  <rect x="16" y="16" width="480" height="480" rx="108" fill="url(#bgGrad)" />
+  <rect x="16" y="16" width="480" height="480" rx="108" fill="none" stroke="url(#borderGrad)" stroke-width="2" />
+
+  <!-- 2. Ambient Atmosphere Behind Mark -->
+  <circle cx="256" cy="245" r="140" fill="#00F0FF" opacity="0.12" filter="url(#ambientGlow)" />
+  <circle cx="280" cy="280" r="130" fill="#6366F1" opacity="0.14" filter="url(#ambientGlow)" />
+
+  <!-- 3. Engineering Precision Grid (Subtle Background) -->
+  <g opacity="0.08" stroke="#38BDF8" stroke-width="1" stroke-dasharray="3 3">
+    <!-- Viewport Guideline Markers -->
+    <line x1="86" y1="120" x2="86" y2="400" />
+    <line x1="186" y1="120" x2="186" y2="400" />
+    <line x1="326" y1="120" x2="326" y2="400" />
+    <line x1="426" y1="120" x2="426" y2="400" />
+    <line x1="86" y1="256" x2="426" y2="256" />
+  </g>
+
+  <!-- 4. Desktop Viewport Frame (Outer Responsive Layer) -->
+  <g filter="url(#dropShadow)">
+    <!-- Monitor Bezel -->
+    <rect x="86" y="132" width="340" height="216" rx="16" fill="url(#desktopScreenGrad)" stroke="#38BDF8" stroke-opacity="0.3" stroke-width="2" />
+    <!-- Monitor Header Bar -->
+    <path d="M 86 148 C 86 139.16 93.16 132 102 132 L 410 132 C 418.84 132 426 139.16 426 148 L 426 156 L 86 156 Z" fill="#1E293B" fill-opacity="0.6" />
+    <!-- Browser Window Dots -->
+    <circle cx="104" cy="144" r="3.5" fill="#EF4444" opacity="0.7" />
+    <circle cx="116" cy="144" r="3.5" fill="#F59E0B" opacity="0.7" />
+    <circle cx="128" cy="144" r="3.5" fill="#10B981" opacity="0.7" />
+    <!-- Monitor Stand Base -->
+    <path d="M 232 348 L 280 348 L 288 384 L 224 384 Z" fill="#1E293B" opacity="0.5" />
+    <rect x="206" y="384" width="100" height="8" rx="4" fill="#334155" opacity="0.7" />
+  </g>
+
+  <!-- 5. Fluid Breakpoint Calipers (Width Indicators) -->
+  <g filter="url(#neonGlow)">
+    <!-- Left Expansion Arrow -->
+    <path d="M 126 256 L 146 244 L 146 252 L 174 252 L 174 260 L 146 260 L 146 268 Z" fill="#00F0FF" />
+    <!-- Right Expansion Arrow -->
+    <path d="M 386 256 L 366 244 L 366 252 L 338 252 L 338 260 L 366 260 L 366 268 Z" fill="#00F0FF" />
+  </g>
+
+  <!-- 6. Mobile Viewport (The Mandatory 320px Core Anchor) -->
+  <g filter="url(#dropShadow)">
+    <!-- Phone Body -->
+    <rect x="186" y="160" width="140" height="248" rx="22" fill="url(#phoneBodyGrad)" stroke="url(#cyanBlueGrad)" stroke-width="3" />
+    <!-- Dynamic Island / Speaker Pill -->
+    <rect x="238" y="172" width="36" height="5" rx="2.5" fill="#38BDF8" opacity="0.8" />
+    
+    <!-- Phone Screen Content (Stylized Responsive Layout Grid) -->
+    <!-- Hero Block -->
+    <rect x="202" y="190" width="108" height="42" rx="6" fill="#38BDF8" fill-opacity="0.12" stroke="#38BDF8" stroke-opacity="0.3" stroke-width="1" />
+    
+    <!-- Center Monogram "R" Emblem (Glowing Core) -->
+    <g transform="translate(228, 246)">
+      <!-- Stylized Modern Geometric R -->
+      <path d="M 6 0 L 26 0 C 37 0 45 7 45 18 C 45 28 38 35 27 36 L 46 62 L 33 62 L 16 36 L 16 62 L 6 62 Z M 16 10 L 16 27 L 26 27 C 32 27 35 24 35 18 C 35 13 31 10 26 10 Z" 
+            fill="url(#cyanBlueGrad)" filter="url(#neonGlow)" />
+    </g>
+
+    <!-- Usable Width Measurement Bar (Step 1-8 Hierarchy symbol) -->
+    <g transform="translate(202, 332)">
+      <!-- Horizontal Usable Width Ruler -->
+      <line x1="0" y1="12" x2="108" y2="12" stroke="url(#accentMintGrad)" stroke-width="2" />
+      <line x1="0" y1="7" x2="0" y2="17" stroke="#10B981" stroke-width="2" />
+      <line x1="54" y1="9" x2="54" y2="15" stroke="#00F0FF" stroke-width="1.5" />
+      <line x1="108" y1="7" x2="108" y2="17" stroke="#10B981" stroke-width="2" />
+      <!-- 320px Tag Text -->
+      <text x="54" y="28" fill="#10B981" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="10" font-weight="700" letter-spacing="1" text-anchor="middle">320px PASS</text>
+    </g>
+
+    <!-- Home Indicator -->
+    <rect x="236" y="394" width="40" height="3" rx="1.5" fill="#64748B" opacity="0.6" />
+  </g>
+
+  <!-- 7. Precision Corner Caliper Accents -->
+  <g stroke="#00F0FF" stroke-width="2" fill="none" opacity="0.7">
+    <!-- Top-Left Dimension Tick -->
+    <path d="M 68 84 L 68 68 L 84 68" />
+    <!-- Top-Right Dimension Tick -->
+    <path d="M 444 84 L 444 68 L 428 68" />
+    <!-- Bottom-Left Dimension Tick -->
+    <path d="M 68 428 L 68 444 L 84 444" />
+    <!-- Bottom-Right Dimension Tick -->
+    <path d="M 444 428 L 444 444 L 428 444" />
+  </g>
+</svg>
